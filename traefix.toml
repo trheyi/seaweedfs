@@ -1,0 +1,21 @@
+[[tls.certificates]]
+  certFile = "/data/certs/star.iqka.com.cert"
+  keyFile = "/data/certs/star.iqka.com.key"
+
+[http.routers.s3-iqka]
+  tls = true
+  rule = "Host(`s3.iqka.com`)"
+  service = "s3-iqka@file"
+
+[http.routers.webdav-iqka]
+  tls = true
+  rule = "Host(`webdav.iqka.com`)"
+  service = "webdav-iqka@file"
+
+[http.services]
+  [http.services.s3-iqka.loadBalancer]
+    [[http.services.s3-iqka.loadBalancer.servers]]
+      url = "http://172.17.0.1:8333/"
+  [http.services.webdav-iqka.loadBalancer]
+    [[http.services.webdav-iqka.loadBalancer.servers]]
+      url = "http://172.17.0.1:7333/"
